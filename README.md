@@ -214,10 +214,7 @@ If you want to make local modifications to these images for development purposes
 ```
 git clone https://github.com/linuxserver/docker-code-server.git
 cd docker-code-server
-docker build \
-  --no-cache \
-  --pull \
-  -t linuxserver/code-server:latest .
+docker build --no-cache --pull -t bethington/code-server:latest .
 ```
 
 The ARM variants can be built on x86_64 hardware using `multiarch/qemu-user-static`
