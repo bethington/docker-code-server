@@ -16,7 +16,10 @@ RUN \
 	git \
 	nano \
 	net-tools \
-	sudo && \
+	sudo \
+	dumb-init \
+	curl \
+	wget && \
  echo "**** install code-server ****" && \
  if [ -z ${CODE_RELEASE+x} ]; then \
 	CODE_RELEASE=$(curl -sX GET "https://api.github.com/repos/cdr/code-server/releases/latest" \
@@ -34,6 +37,15 @@ RUN \
 	/var/lib/apt/lists/* \
 	/var/tmp/*
 	
+RUN locale-gen en_US.UTF-8
+# We cannot use update-locale because docker will not use the env variables
+# configured in /etc/default/locale so we need to set it manually.
+ENV LC_ALL=en_US.UTF-8 \
+	SHELL=/bin/bash
+
+RUN adduser --gecos '' --disabled-password coder && \
+	echo "coder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/nopasswd	
+	
 USER coder
 
 WORKDIR /home/coder
@@ -41,7 +53,9 @@ WORKDIR /home/coder
 VOLUME /home/coder
 
 # add local files
-COPY /root /
+#COPY /root /
 
 # ports and volumes
 EXPOSE 8080
+
+ENTRYPOINT ["dumb-init", "code-server", "--host", "0.0.0.0"]
