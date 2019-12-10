@@ -1,17 +1,17 @@
 #!/usr/bin/with-contenv bash
 
-mkdir -p /config/{extensions,data,workspace,.ssh}
+mkdir -p /home/coder/{extensions,data,workspace,.ssh}
 
 if [ -n "${SUDO_PASSWORD}" ]; then
   echo "setting up sudo access"
-  if ! grep -q 'abc' /etc/sudoers; then
-    echo "adding abc to sudoers"
-    echo "abc ALL=(ALL:ALL) ALL" >> /etc/sudoers
+  if ! grep -q 'coder' /etc/sudoers; then
+    echo "adding coder to sudoers"
+    echo "coder ALL=(ALL:ALL) ALL" >> /etc/sudoers
   fi
   echo "setting sudo password"
-  echo -e "${SUDO_PASSWORD}\n${SUDO_PASSWORD}" | passwd abc
+  echo -e "${SUDO_PASSWORD}\n${SUDO_PASSWORD}" | passwd coder
 fi
 
 # permissions
-chown -R abc:abc \
-	/config
+chown -R coder:coder \
+	/home/coder
