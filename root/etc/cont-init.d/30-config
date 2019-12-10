@@ -1,6 +1,6 @@
 #!/usr/bin/with-contenv bash
 
-mkdir -p /home/coder/{extensions,data,workspace,.ssh}
+mkdir -p /home/coder/{extensions,data,workspace,.code-server,.ssh}
 
 if [ -n "${SUDO_PASSWORD}" ]; then
   echo "setting up sudo access"
