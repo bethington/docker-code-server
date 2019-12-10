@@ -47,7 +47,7 @@ ENV LC_ALL=en_US.UTF-8 \
 
 RUN adduser --gecos '' --disabled-password coder && \
 	echo "coder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/nopasswd	&& \
-	echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && sysctl -p
+	echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
 	
 RUN mkdir -p /home/coder/{.code-server,.code-server/extensions,.code-server/data,.local,.local/code-server,.ssh} && \
         # permissions
