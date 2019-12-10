@@ -8,7 +8,7 @@ else
 fi
 
 exec \
-	s6-setuidgid abc \
+	s6-setuidgid coder \
 		/usr/bin/code-server \
 			--port 8443 \
 			--user-data-dir /config/data \
@@ -16,4 +16,4 @@ exec \
 			--disable-telemetry \
 			--disable-updates \
 			--auth "${AUTH}" \
-			/config/workspace
+			/home/coder
