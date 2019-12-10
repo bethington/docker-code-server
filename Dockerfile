@@ -67,5 +67,5 @@ ENTRYPOINT dumb-init code-server --host 0.0.0.0 \
 				 --extensions-dir /home/coder/.code-server/extensions \
 				 --disable-telemetry \
 				 --disable-updates \
-				 --auth "${PASSWORD}" \
+				 --auth "password" \
 				 /home/coder
