@@ -47,7 +47,7 @@ ENV LC_ALL=en_US.UTF-8 \
 RUN adduser --gecos '' --disabled-password coder && \
 	echo "coder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/nopasswd	
 	
-RUN mkdir -p /home/coder/{.code-server,.code-server/extensions,.code-server/data,.ssh}
+RUN mkdir -p /home/coder/{.code-server,.code-server/extensions,.code-server/data,.local,.local/code-server,.ssh}
 	
 USER coder
 
