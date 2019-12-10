@@ -53,7 +53,7 @@ RUN adduser --gecos '' --disabled-password coder && \
 	
 RUN mkdir -p /home/coder/{.code-server,.code-server/extensions,.code-server/data,.local,.local/code-server,.ssh} && \
         # permissions
-	chown -R coder:coder /home/coder
+	chown -R coder:coder /home/coder /var/run/docker.sock
 	
 USER coder
 
