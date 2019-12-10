@@ -1,3 +1,4 @@
+# docker build -t bethington/code-server:latest .
 FROM ubuntu:18.04
 
 # set version label
