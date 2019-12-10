@@ -10,7 +10,7 @@ fi
 exec \
 	s6-setuidgid coder \
 		/usr/bin/code-server \
-			--port 8443 \
+			--port 8080 \
 			--user-data-dir /home/coder/.code-server/data \
 			--extensions-dir /home/coder/.code-server/extensions \
 			--disable-telemetry \
