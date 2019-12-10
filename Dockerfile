@@ -25,11 +25,6 @@ RUN \
 	apt-transport-https \
 	ca-certificates \
         software-properties-common && \
- curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - && \
- add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" && \
- apt-get update && \
- apt-get install -y \
- 	docker-ce-cli && \
  echo "**** install code-server ****" && \
  if [ -z ${CODE_RELEASE+x} ]; then \
 	CODE_RELEASE=$(curl -sX GET "https://api.github.com/repos/cdr/code-server/releases/latest" \
@@ -58,10 +53,15 @@ RUN adduser --gecos '' --disabled-password coder && \
 	
 RUN mkdir -p /home/coder/{.code-server,.code-server/extensions,.code-server/data,.local,.local/code-server,.ssh} && \
         # permissions
-	chown -R coder:coder /home/coder && \
-	usermod -aG docker coder
+	chown -R coder:coder /home/coder
 	
 USER coder
+
+RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - && \
+ add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" && \
+ apt-get update && \
+ apt-get install -y docker-ce-cli && \
+ usermod -aG docker coder
 
 WORKDIR /home/coder
 
