@@ -4,11 +4,11 @@ FROM lsiobase/ubuntu:bionic
 ARG BUILD_DATE
 ARG VERSION
 ARG CODE_RELEASE
-LABEL build_version="Linuxserver.io version:- ${VERSION} Build-date:- ${BUILD_DATE}"
-LABEL maintainer="aptalca"
+LABEL build_version="xebyte.com version:- ${VERSION} Build-date:- ${BUILD_DATE}"
+LABEL maintainer="bethington"
 
 # environment settings
-ENV HOME="/config"
+ENV HOME="/home/coder"
 
 RUN \
  apt-get update && \
@@ -33,9 +33,15 @@ RUN \
 	/tmp/* \
 	/var/lib/apt/lists/* \
 	/var/tmp/*
+	
+USER coder
+
+WORKDIR /home/coder
+
+VOLUME /home/coder
 
 # add local files
 COPY /root /
 
 # ports and volumes
-EXPOSE 8443
+EXPOSE 8080
