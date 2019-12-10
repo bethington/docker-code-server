@@ -47,7 +47,9 @@ ENV LC_ALL=en_US.UTF-8 \
 RUN adduser --gecos '' --disabled-password coder && \
 	echo "coder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/nopasswd	
 	
-RUN mkdir -p /home/coder/{.code-server,.code-server/extensions,.code-server/data,.local,.local/code-server,.ssh}
+RUN mkdir -p /home/coder/{.code-server,.code-server/extensions,.code-server/data,.local,.local/code-server,.ssh} && \
+        # permissions
+	chown -R coder:coder /home/coder
 	
 USER coder
 
@@ -55,10 +57,14 @@ WORKDIR /home/coder
 
 VOLUME /home/coder
 
-# add local files
-#COPY /root /
-
 # ports and volumes
 EXPOSE 8080
 
-ENTRYPOINT ["dumb-init", "code-server", "--host", "0.0.0.0"]
+ENTRYPOINT dumb-init code-server --host 0.0.0.0 \
+				 --port 8080 \
+				 --user-data-dir /home/coder/.code-server/data \
+				 --extensions-dir /home/coder/.code-server/extensions \
+				 --disable-telemetry \
+				 --disable-updates \
+				 --auth "${PASSWORD}" \
+				 /home/coder
