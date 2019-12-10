@@ -21,7 +21,15 @@ RUN \
 	sudo \
 	dumb-init \
 	curl \
-	wget && \
+	wget \
+	apt-transport-https \
+	ca-certificates \
+        software-properties-common && \
+ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - && \
+ add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" && \
+ apt-get update && \
+ apt-get install -y \
+ 	docker-ce-cli && \
  echo "**** install code-server ****" && \
  if [ -z ${CODE_RELEASE+x} ]; then \
 	CODE_RELEASE=$(curl -sX GET "https://api.github.com/repos/cdr/code-server/releases/latest" \
@@ -46,8 +54,7 @@ ENV LC_ALL=en_US.UTF-8 \
 	SHELL=/bin/bash
 
 RUN adduser --gecos '' --disabled-password coder && \
-	echo "coder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/nopasswd	&& \
-	echo "fs.inotify.max_user_watches=524288" >> /etc/sysctl.conf
+	echo "coder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/nopasswd
 	
 RUN mkdir -p /home/coder/{.code-server,.code-server/extensions,.code-server/data,.local,.local/code-server,.ssh} && \
         # permissions
