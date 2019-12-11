@@ -61,7 +61,9 @@ RUN adduser --gecos '' --disabled-password coder && \
 	echo "coder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/nopasswd
 RUN mkdir -p /home/coder/{.code-server,.code-server/extensions,.code-server/data,.local,.local/code-server,.ssh} && \
         # permissions
-	chown -R coder:coder /home/coder /var/run/docker.sock
+	chown -R coder:coder /home/coder && \
+	touch /var/run/docker.sock && \
+	chown -R coder:coder /var/run/docker.sock
 	
 USER coder
 
