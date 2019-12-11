@@ -22,6 +22,8 @@ RUN \
 	dumb-init \
 	curl \
 	wget \
+	nodejs \
+	npm \
 	apt-transport-https \
 	ca-certificates \
         software-properties-common && \
