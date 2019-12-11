@@ -14,6 +14,7 @@ ENV HOME="/home/coder"
 RUN \
  apt-get update && \
  apt-get install -y \
+ 	apt-utils\
 	git \
 	locales \
 	nano \
@@ -49,17 +50,15 @@ RUN locale-gen en_US.UTF-8
 # configured in /etc/default/locale so we need to set it manually.
 ENV LC_ALL=en_US.UTF-8 \
 	SHELL=/bin/bash
-
-RUN adduser --gecos '' --disabled-password coder && \
-	echo "coder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/nopasswd
-
 # Install Docker
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - && \
  add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" && \
  apt-get update && \
- apt-get install -y docker-ce-cli && \
- usermod -aG docker coder
-	
+ apt-get install -y docker-ce-cli
+
+# Create user coder
+RUN adduser --gecos '' --disabled-password coder && \
+	echo "coder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/nopasswd
 RUN mkdir -p /home/coder/{.code-server,.code-server/extensions,.code-server/data,.local,.local/code-server,.ssh} && \
         # permissions
 	chown -R coder:coder /home/coder /var/run/docker.sock
