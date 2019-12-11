@@ -52,18 +52,19 @@ ENV LC_ALL=en_US.UTF-8 \
 
 RUN adduser --gecos '' --disabled-password coder && \
 	echo "coder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/nopasswd
-	
-RUN sudo mkdir -p /home/coder/{.code-server,.code-server/extensions,.code-server/data,.local,.local/code-server,.ssh} && \
-        # permissions
-	sudo chown -R coder:coder /home/coder /var/run/docker.sock
-	
-USER coder
 
+# Install Docker
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - && \
  add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" && \
  apt-get update && \
  apt-get install -y docker-ce-cli && \
  usermod -aG docker coder
+	
+RUN mkdir -p /home/coder/{.code-server,.code-server/extensions,.code-server/data,.local,.local/code-server,.ssh} && \
+        # permissions
+	chown -R coder:coder /home/coder /var/run/docker.sock
+	
+USER coder
 
 WORKDIR /home/coder
 
